@@ -1,19 +1,62 @@
 import { useEffect } from 'react';
 import BakeryTemplate from './templates/BakeryTemplate';
+import BakeryModernTemplate from './templates/BakeryModernTemplate';
+import PatisserieTemplate from './templates/PatisserieTemplate';
 import LocksmithTemplate from './templates/LocksmithTemplate';
+import LocksmithProTemplate from './templates/LocksmithProTemplate';
+import LocksmithSosTemplate from './templates/LocksmithSosTemplate';
 import SalonTemplate from './templates/SalonTemplate';
+import BarberTemplate from './templates/BarberTemplate';
+import SalonVibrantTemplate from './templates/SalonVibrantTemplate';
 import RestaurantTemplate from './templates/RestaurantTemplate';
+import CafeTemplate from './templates/CafeTemplate';
+import RestaurantAsianTemplate from './templates/RestaurantAsianTemplate';
 import PlumberTemplate from './templates/PlumberTemplate';
+import PlumberEcoTemplate from './templates/PlumberEcoTemplate';
+import PlumberUrgentTemplate from './templates/PlumberUrgentTemplate';
+import ElectrienTemplate from './templates/ElectrienTemplate';
+import ElectrienSmartTemplate from './templates/ElectrienSmartTemplate';
+import ElectrienLightTemplate from './templates/ElectrienLightTemplate';
+import FleuristeTemplate from './templates/FleuristeTemplate';
+import FleuristeEventsTemplate from './templates/FleuristeEventsTemplate';
+import FleuristeUrbanTemplate from './templates/FleuristeUrbanTemplate';
+import GarageTemplate from './templates/GarageTemplate';
+import GarageExpressTemplate from './templates/GarageExpressTemplate';
+import GarageBodyTemplate from './templates/GarageBodyTemplate';
 
 const templateMap = {
+  // Boulangerie
   bakery: BakeryTemplate,
-  patisserie: BakeryTemplate,
+  'bakery-modern': BakeryModernTemplate,
+  patisserie: PatisserieTemplate,
+  // Serrurerie
   locksmith: LocksmithTemplate,
+  'locksmith-pro': LocksmithProTemplate,
+  'locksmith-sos': LocksmithSosTemplate,
+  // Coiffure
   salon: SalonTemplate,
-  barber: SalonTemplate,
+  barber: BarberTemplate,
+  'salon-vibrant': SalonVibrantTemplate,
+  // Restaurant
   restaurant: RestaurantTemplate,
-  cafe: RestaurantTemplate,
+  cafe: CafeTemplate,
+  'restaurant-asian': RestaurantAsianTemplate,
+  // Plomberie
   plumber: PlumberTemplate,
+  'plumber-eco': PlumberEcoTemplate,
+  'plumber-urgent': PlumberUrgentTemplate,
+  // Électricité
+  electricien: ElectrienTemplate,
+  'electricien-smart': ElectrienSmartTemplate,
+  'electricien-light': ElectrienLightTemplate,
+  // Fleuriste
+  fleuriste: FleuristeTemplate,
+  'fleuriste-events': FleuristeEventsTemplate,
+  'fleuriste-urban': FleuristeUrbanTemplate,
+  // Garage
+  garage: GarageTemplate,
+  'garage-express': GarageExpressTemplate,
+  'garage-body': GarageBodyTemplate,
 };
 
 export default function ProjectModal({ project, onClose }) {

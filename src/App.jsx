@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { Zap, Smartphone, Search, Phone, Image, Lock, CheckCircle, ArrowRight, Monitor } from 'lucide-react';
 import { sectors } from './data/projects';
 import ProjectCard from './components/ProjectCard';
 import ProjectModal from './components/ProjectModal';
+import { IMAGES } from './utils/images';
 
 const NAV_LINKS = ['Services', 'Projets', 'Process', 'Tarifs', 'Contact'];
 
@@ -52,53 +54,70 @@ export default function App() {
       </nav>
 
       {/* ── HERO ── */}
-      <section style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', padding: '80px 5%', position: 'relative', overflow: 'hidden' }}>
-        {/* Background glow */}
-        <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, height: 600, background: 'radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
-
-        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-          <div style={{ maxWidth: 720 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1e3a5f', color: '#60a5fa', padding: '6px 14px', borderRadius: 20, fontSize: 13, fontWeight: 600, marginBottom: 24 }}>
+      <section style={{ minHeight: '90vh', display: 'grid', gridTemplateColumns: '1fr 1fr', position: 'relative', overflow: 'hidden' }}>
+        {/* Left — text */}
+        <div style={{ display: 'flex', alignItems: 'center', padding: '80px 5% 80px 8%', position: 'relative', zIndex: 1 }}>
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1e3a5f', color: '#60a5fa', padding: '6px 14px', borderRadius: 20, fontSize: 13, fontWeight: 600, marginBottom: 28 }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block', animation: 'pulse 2s infinite' }} />
               Disponible — 3 places ce mois-ci
             </div>
-            <h1 style={{ fontSize: 62, fontWeight: 900, lineHeight: 1.1, marginBottom: 24, letterSpacing: -2 }}>
+            <h1 style={{ fontSize: 58, fontWeight: 900, lineHeight: 1.05, marginBottom: 24, letterSpacing: -2 }}>
               Votre site web
               <span style={{ display: 'block', background: 'linear-gradient(90deg, #2563eb, #60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 clés en main
               </span>
               pour votre commerce
             </h1>
-            <p style={{ fontSize: 19, color: '#94a3b8', lineHeight: 1.7, marginBottom: 40 }}>
+            <p style={{ fontSize: 17, color: '#94a3b8', lineHeight: 1.7, marginBottom: 40 }}>
               Je crée des sites web professionnels pour les artisans et commerçants locaux. Boulangeries, serrureries, salons de coiffure… Livré en 7 jours, sans jargon technique.
             </p>
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 48 }}>
               <button onClick={() => scrollTo('projets')}
-                style={{ background: '#2563eb', color: '#fff', border: 'none', padding: '16px 36px', borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: 'pointer', transition: 'background 0.2s' }}
-                onMouseEnter={e => e.target.style.background = '#1d4ed8'}
-                onMouseLeave={e => e.target.style.background = '#2563eb'}>
-                Voir mes réalisations →
+                style={{ background: '#2563eb', color: '#fff', border: 'none', padding: '15px 32px', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}
+                onMouseEnter={e => e.currentTarget.style.background = '#1d4ed8'}
+                onMouseLeave={e => e.currentTarget.style.background = '#2563eb'}>
+                Voir mes réalisations <ArrowRight size={16} />
               </button>
               <button onClick={() => scrollTo('contact')}
-                style={{ background: 'transparent', color: '#fff', border: '2px solid #334155', padding: '16px 36px', borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: 'pointer' }}>
+                style={{ background: 'transparent', color: '#fff', border: '2px solid #334155', padding: '15px 32px', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer' }}>
                 Devis gratuit
               </button>
             </div>
-            {/* Social proof */}
-            <div style={{ marginTop: 48, display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+            {/* Social proof avatars */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <div style={{ display: 'flex' }}>
-                {['🧑‍🍳', '💇‍♀️', '🔑', '🍽️', '🔧'].map((e, i) => (
-                  <div key={i} style={{ width: 36, height: 36, borderRadius: '50%', background: '#1e293b', border: '2px solid #0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: i > 0 ? -10 : 0, fontSize: 16 }}>
-                    {e}
-                  </div>
+                {[IMAGES.bakery.owner, IMAGES.salon.team1, IMAGES.salon.team2, IMAGES.salon.team3, IMAGES.restaurant.chef].map((src, i) => (
+                  <img key={i} src={src} alt="client" style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '2px solid #0f172a', marginLeft: i > 0 ? -10 : 0 }} />
                 ))}
               </div>
               <div>
                 <div style={{ display: 'flex', gap: 2, marginBottom: 2 }}>
-                  {[...Array(5)].map((_, i) => <span key={i} style={{ color: '#f59e0b', fontSize: 14 }}>★</span>)}
+                  {[...Array(5)].map((_, i) => <CheckCircle key={i} size={13} color="#f59e0b" fill="#f59e0b" />)}
                 </div>
                 <div style={{ color: '#64748b', fontSize: 13 }}>+50 commerçants satisfaits</div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right — image collage */}
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <img src={IMAGES.portfolio.hero} alt="web design" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.4)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, #0f172a 0%, transparent 30%)' }} />
+          {/* Floating cards */}
+          <div style={{ position: 'absolute', top: '15%', right: '8%', background: 'rgba(15,23,42,0.9)', backdropFilter: 'blur(10px)', border: '1px solid #1e293b', borderRadius: 12, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Monitor size={18} color="#60a5fa" />
+            <div>
+              <div style={{ color: '#fff', fontWeight: 700, fontSize: 13 }}>Livré en 7 jours</div>
+              <div style={{ color: '#64748b', fontSize: 11 }}>Design + développement</div>
+            </div>
+          </div>
+          <div style={{ position: 'absolute', bottom: '20%', right: '12%', background: 'rgba(15,23,42,0.9)', backdropFilter: 'blur(10px)', border: '1px solid #1e293b', borderRadius: 12, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Search size={18} color="#22c55e" />
+            <div>
+              <div style={{ color: '#fff', fontWeight: 700, fontSize: 13 }}>SEO local inclus</div>
+              <div style={{ color: '#64748b', fontSize: 11 }}>Visible sur Google</div>
             </div>
           </div>
         </div>
@@ -113,17 +132,19 @@ export default function App() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {[
-              { icon: '⚡', title: 'Site rapide & moderne', desc: 'Temps de chargement optimisé, design soigné adapté à votre image.', color: '#f59e0b' },
-              { icon: '📱', title: 'Adapté mobile', desc: 'Parfait sur smartphone, tablette et ordinateur. 70% des visites viennent du mobile.', color: '#22c55e' },
-              { icon: '🔍', title: 'SEO local', desc: 'Référencement Google optimisé pour votre ville et votre secteur.', color: '#3b82f6' },
-              { icon: '📞', title: 'Prise de RDV / Contact', desc: 'Formulaire, réservation en ligne, lien téléphone — vos clients vous contactent.', color: '#ec4899' },
-              { icon: '🖼️', title: 'Galerie & menu', desc: 'Photos de vos produits, menu, catalogue — tout ce qui convainc.', color: '#a78bfa' },
-              { icon: '🔒', title: 'Hébergement inclus', desc: '1 an d\'hébergement, nom de domaine et certificat SSL inclus.', color: '#06b6d4' },
+              { Icon: Zap, title: 'Site rapide & moderne', desc: 'Temps de chargement optimisé, design soigné adapté à votre image.', color: '#f59e0b' },
+              { Icon: Smartphone, title: 'Adapté mobile', desc: 'Parfait sur smartphone, tablette et ordinateur. 70% des visites viennent du mobile.', color: '#22c55e' },
+              { Icon: Search, title: 'SEO local', desc: 'Référencement Google optimisé pour votre ville et votre secteur.', color: '#3b82f6' },
+              { Icon: Phone, title: 'Prise de RDV / Contact', desc: 'Formulaire, réservation en ligne, lien téléphone — vos clients vous contactent.', color: '#ec4899' },
+              { Icon: Image, title: 'Galerie & menu', desc: 'Photos de vos produits, menu, catalogue — tout ce qui convainc.', color: '#a78bfa' },
+              { Icon: Lock, title: 'Hébergement inclus', desc: '1 an d\'hébergement, nom de domaine et certificat SSL inclus.', color: '#06b6d4' },
             ].map((s, i) => (
               <div key={i} style={{ background: '#111827', border: '1px solid #1e293b', borderRadius: 16, padding: 32, transition: 'border-color 0.2s' }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = s.color}
                 onMouseLeave={e => e.currentTarget.style.borderColor = '#1e293b'}>
-                <div style={{ fontSize: 40, marginBottom: 16 }}>{s.icon}</div>
+                <div style={{ background: s.color + '18', borderRadius: 12, padding: 14, width: 'fit-content', marginBottom: 18 }}>
+                  <s.Icon size={26} color={s.color} />
+                </div>
                 <div style={{ fontWeight: 700, fontSize: 17, marginBottom: 10, color: '#f1f5f9' }}>{s.title}</div>
                 <div style={{ fontSize: 14, color: '#64748b', lineHeight: 1.6 }}>{s.desc}</div>
               </div>
@@ -149,7 +170,7 @@ export default function App() {
             {sectors.map(s => (
               <button key={s.id} onClick={() => setActiveSector(s.id)}
                 style={{ background: activeSector === s.id ? s.color + '25' : '#111827', color: activeSector === s.id ? s.color : '#94a3b8', border: `1px solid ${activeSector === s.id ? s.color : '#1e293b'}`, padding: '9px 20px', borderRadius: 24, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
-                {s.icon} {s.label}
+                {s.label}
               </button>
             ))}
           </div>
@@ -177,14 +198,14 @@ export default function App() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
             {[
-              { num: '01', title: 'Appel découverte', desc: '30 min pour comprendre votre activité et vos besoins.', icon: '📞' },
-              { num: '02', title: 'Maquette & design', desc: 'Je vous présente la maquette pour validation.', icon: '🎨' },
-              { num: '03', title: 'Développement', desc: 'Je code votre site en 3 à 5 jours ouvrés.', icon: '💻' },
-              { num: '04', title: 'Mise en ligne', desc: 'Lancement + formation de 30 min pour gérer votre site.', icon: '🚀' },
+              { num: '01', title: 'Appel découverte', desc: '30 min pour comprendre votre activité et vos besoins.', Icon: Phone },
+              { num: '02', title: 'Maquette & design', desc: 'Je vous présente la maquette pour validation.', Icon: Monitor },
+              { num: '03', title: 'Développement', desc: 'Je code votre site en 3 à 5 jours ouvrés.', Icon: Zap },
+              { num: '04', title: 'Mise en ligne', desc: 'Lancement + formation de 30 min pour gérer votre site.', Icon: CheckCircle },
             ].map((step, i) => (
               <div key={i} style={{ textAlign: 'center', position: 'relative' }}>
-                <div style={{ background: '#1e293b', width: 64, height: 64, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 28, border: '2px solid #334155' }}>
-                  {step.icon}
+                <div style={{ background: '#1e293b', width: 64, height: 64, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', border: '2px solid #334155' }}>
+                  <step.Icon size={24} color="#2563eb" />
                 </div>
                 <div style={{ color: '#2563eb', fontWeight: 800, fontSize: 13, letterSpacing: 1, marginBottom: 8 }}>ÉTAPE {step.num}</div>
                 <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 10, color: '#f1f5f9' }}>{step.title}</div>

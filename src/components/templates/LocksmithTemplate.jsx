@@ -1,120 +1,242 @@
 import { useState } from 'react';
+import { IMAGES } from '../../utils/images';
 
-const services = [
-  { icon: '🚪', title: 'Ouverture de porte', desc: 'Claquée, coincée, perdu vos clés ? On arrive.', price: 'Dès 49€' },
-  { icon: '🔒', title: 'Changement de serrure', desc: 'Remplacement toutes marques, toutes gammes.', price: 'Dès 89€' },
-  { icon: '🛡️', title: 'Porte blindée', desc: 'Installation et renforcement de portes blindées.', price: 'Sur devis' },
-  { icon: '🔑', title: 'Double de clé', desc: 'Reproduction rapide en boutique ou sur place.', price: 'Dès 5€' },
-  { icon: '🏢', title: 'Serrure pro', desc: 'Sécurisation locaux commerciaux et bureaux.', price: 'Sur devis' },
-  { icon: '⚡', title: 'Urgence 24/7', desc: 'Intervention garantie en moins de 20 minutes.', price: 'Dès 79€' },
+// ══ SÉCURITÉ MAXIMALE ══
+// Aesthetic: Industrial brutalism — pitch black, acid yellow, zero decoration
+// Font: Bebas Neue (ALL CAPS display) + Courier Prime (mono data)
+// Layout: VERTICAL SIDEBAR — structurally opposite to every other template
+
+const SERVICES = [
+  { num: '01', title: 'OUVERTURE DE PORTE', desc: 'Porte claquée, clé cassée, serrure bloquée.', price: '49€', urgent: true },
+  { num: '02', title: 'CHANGEMENT DE SERRURE', desc: 'Toutes marques, certification A2P recommandée.', price: '89€', urgent: false },
+  { num: '03', title: 'PORTE BLINDÉE', desc: 'Installation complète, certificat fourni.', price: 'Devis', urgent: false },
+  { num: '04', title: 'SERRURE MULTIPOINTS', desc: 'Pose et remplacement, main-d\'œuvre incluse.', price: '149€', urgent: false },
+  { num: '05', title: 'REPRODUCTION DE CLÉS', desc: 'Original ou par code. Délai immédiat.', price: '5€', urgent: false },
+  { num: '06', title: 'SÉCURISATION PRO', desc: 'Audit sécurité locaux commerciaux.', price: 'Devis', urgent: false },
 ];
 
 export default function LocksmithTemplate({ project }) {
-  const [activeSection, setActiveSection] = useState('accueil');
-  const [formData, setFormData] = useState({ nom: '', tel: '', message: '' });
+  const [section, setSection] = useState('accueil');
+  const [form, setForm] = useState({ nom: '', tel: '', type: '', message: '' });
   const [sent, setSent] = useState(false);
-  const { primaryColor, accentColor, name, tagline } = project;
+  const { accentColor, name } = project;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSent(true);
-  };
+  const ac = accentColor || '#FFE500';
+
+  const NAV = [
+    { id: 'accueil', label: 'ACCUEIL' },
+    { id: 'urgence', label: '▶ URGENCE' },
+    { id: 'services', label: 'SERVICES' },
+    { id: 'avis', label: 'AVIS' },
+    { id: 'devis', label: 'DEVIS' },
+  ];
 
   return (
-    <div style={{ fontFamily: 'Inter, sans-serif', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-      {/* Urgency banner */}
-      <div style={{ background: accentColor, color: primaryColor, textAlign: 'center', padding: '8px', fontSize: 13, fontWeight: 700, flexShrink: 0 }}>
-        ⚡ Intervention rapide 24h/24 — 7j/7 — Appelez le 06 12 34 56 78
-      </div>
+    <div style={{ height: '100%', overflow: 'hidden', display: 'flex', fontFamily: '"Courier Prime", "Courier New", monospace', background: '#000' }}>
 
-      {/* Nav */}
-      <nav style={{ backgroundColor: primaryColor, padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        <div style={{ color: accentColor, fontWeight: 800, fontSize: 20 }}>🔑 {name}</div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          {['accueil', 'services', 'contact'].map(item => (
-            <button key={item} onClick={() => setActiveSection(item)}
-              style={{ background: activeSection === item ? accentColor : 'rgba(255,255,255,0.1)', color: activeSection === item ? primaryColor : '#fff', border: 'none', padding: '8px 18px', borderRadius: 6, fontSize: 13, fontWeight: 600, cursor: 'pointer', textTransform: 'capitalize' }}>
-              {item}
+      {/* SIDEBAR — vertical, brutale */}
+      <div style={{ width: 180, background: '#000', borderRight: `3px solid ${ac}`, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+        {/* Logo */}
+        <div style={{ borderBottom: `2px solid ${ac}`, padding: '20px 16px' }}>
+          <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 24, color: ac, letterSpacing: 2, lineHeight: 1.1 }}>
+            {name.toUpperCase().split(' ').map((w, i) => <div key={i}>{w}</div>)}
+          </div>
+          <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 10, color: '#555', marginTop: 6 }}>SERRURERIE</div>
+        </div>
+        {/* Nav items */}
+        <nav style={{ flex: 1 }}>
+          {NAV.map((item, i) => (
+            <button key={item.id} onClick={() => setSection(item.id)} style={{
+              width: '100%', textAlign: 'left', padding: '14px 16px',
+              background: section === item.id ? ac : 'transparent',
+              color: section === item.id ? '#000' : '#666',
+              border: 'none', borderBottom: '1px solid #1A1A1A',
+              fontFamily: '"Bebas Neue", sans-serif', fontSize: 16, letterSpacing: 2,
+              cursor: 'pointer', transition: 'background 0.1s',
+            }}>
+              {item.label}
             </button>
           ))}
+        </nav>
+        {/* Phone — bas sidebar */}
+        <div style={{ borderTop: `2px solid ${ac}`, padding: '16px 12px' }}>
+          <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 10, color: '#555', marginBottom: 4 }}>URGENCE 24/7</div>
+          <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 20, color: ac, letterSpacing: 1 }}>06 12 34 56</div>
+          <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 20, color: ac, letterSpacing: 1 }}>78</div>
         </div>
-      </nav>
+      </div>
 
-      <div style={{ flex: 1, overflow: 'auto', backgroundColor: '#f8fafc' }}>
-        {activeSection === 'accueil' && (
+      {/* MAIN CONTENT */}
+      <div style={{ flex: 1, overflow: 'auto', background: '#000' }}>
+
+        {/* ─── ACCUEIL ─── */}
+        {section === 'accueil' && (
           <div>
-            <div style={{ background: `linear-gradient(135deg, ${primaryColor} 0%, #334155 100%)`, padding: '60px 40px', color: '#fff' }}>
-              <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
-                <div style={{ fontSize: 72, marginBottom: 16 }}>🔐</div>
-                <h1 style={{ fontSize: 38, fontWeight: 800, marginBottom: 12 }}>{name}</h1>
-                <p style={{ fontSize: 18, opacity: 0.85, marginBottom: 32 }}>{tagline}</p>
-                <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-                  <button onClick={() => setActiveSection('services')}
-                    style={{ background: accentColor, color: primaryColor, border: 'none', padding: '14px 36px', borderRadius: 8, fontWeight: 700, fontSize: 16, cursor: 'pointer' }}>
-                    Nos services
-                  </button>
-                  <button onClick={() => setActiveSection('contact')}
-                    style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', border: '2px solid rgba(255,255,255,0.4)', padding: '14px 36px', borderRadius: 8, fontWeight: 700, fontSize: 16, cursor: 'pointer' }}>
-                    Devis gratuit
-                  </button>
+            {/* Hero — photo avec overlay brutal */}
+            <div style={{ position: 'relative', height: 280 }}>
+              <img src={IMAGES.locksmith.hero} alt="serrurerie" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.3) contrast(1.3) grayscale(0.8)' }} />
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 40px' }}>
+                <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 11, color: ac, letterSpacing: 3, marginBottom: 12 }}>
+                  [ DISPONIBLE MAINTENANT ]
+                </div>
+                <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 72, color: '#FFF', lineHeight: 0.9, letterSpacing: 2 }}>
+                  {name.toUpperCase()}
+                </div>
+                <div style={{ width: '100%', height: 3, background: ac, margin: '16px 0' }} />
+                <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 14, color: '#888' }}>
+                  Intervention garantie en moins de 20 minutes
                 </div>
               </div>
             </div>
-            <div style={{ padding: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20 }}>
-              {[{ icon: '⏱️', stat: '< 20 min', label: 'Délai intervention' }, { icon: '✅', stat: '2500+', label: 'Clients satisfaits' }, { icon: '🏅', stat: '15 ans', label: "D'expérience" }].map((s, i) => (
-                <div key={i} style={{ background: '#fff', padding: 28, borderRadius: 12, textAlign: 'center', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}>
-                  <div style={{ fontSize: 32, marginBottom: 8 }}>{s.icon}</div>
-                  <div style={{ fontSize: 28, fontWeight: 800, color: primaryColor }}>{s.stat}</div>
-                  <div style={{ fontSize: 13, color: '#666', marginTop: 4 }}>{s.label}</div>
+
+            {/* Stats bar */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', borderBottom: `1px solid #1A1A1A` }}>
+              {[['&lt;20 MIN','DÉLAI MAX'],['10 ANS','EXPÉRIENCE'],['2400+','CLIENTS'],['A2P','CERTIFIÉ']].map(([v,l],i) => (
+                <div key={i} style={{ padding: '20px 24px', borderRight: i<3?'1px solid #1A1A1A':'none' }}>
+                  <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 28, color: ac, letterSpacing: 1 }} dangerouslySetInnerHTML={{__html: v}} />
+                  <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 10, color: '#555', letterSpacing: 1, marginTop: 2 }}>{l}</div>
                 </div>
               ))}
             </div>
-          </div>
-        )}
 
-        {activeSection === 'services' && (
-          <div style={{ padding: 40 }}>
-            <h2 style={{ color: primaryColor, fontSize: 28, marginBottom: 8, textAlign: 'center' }}>Nos Services</h2>
-            <p style={{ textAlign: 'center', color: '#64748b', marginBottom: 32 }}>Devis gratuit — Sans engagement</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              {services.map((s, i) => (
-                <div key={i} style={{ background: '#fff', borderRadius: 12, padding: 24, boxShadow: '0 2px 8px rgba(0,0,0,0.06)', borderLeft: `4px solid ${accentColor}` }}>
-                  <div style={{ fontSize: 32, marginBottom: 10 }}>{s.icon}</div>
-                  <div style={{ fontWeight: 700, fontSize: 16, color: '#1e293b', marginBottom: 6 }}>{s.title}</div>
-                  <div style={{ fontSize: 13, color: '#64748b', marginBottom: 12 }}>{s.desc}</div>
-                  <div style={{ background: primaryColor, color: accentColor, display: 'inline-block', padding: '4px 12px', borderRadius: 20, fontSize: 13, fontWeight: 700 }}>{s.price}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeSection === 'contact' && (
-          <div style={{ padding: 40, maxWidth: 520, margin: '0 auto' }}>
-            <h2 style={{ color: primaryColor, fontSize: 28, marginBottom: 8, textAlign: 'center' }}>Demande de devis</h2>
-            <p style={{ textAlign: 'center', color: '#64748b', marginBottom: 28 }}>Gratuit & sans engagement</p>
-            {sent ? (
-              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 12, padding: 32, textAlign: 'center' }}>
-                <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
-                <p style={{ color: '#166534', fontWeight: 700, fontSize: 18 }}>Message envoyé !</p>
-                <p style={{ color: '#4ade80', marginTop: 8 }}>Nous vous rappelons dans les 30 minutes.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} style={{ background: '#fff', padding: 32, borderRadius: 16, boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}>
-                {[['nom', 'Votre nom', 'text'], ['tel', 'Votre téléphone', 'tel']].map(([field, label, type]) => (
-                  <div key={field} style={{ marginBottom: 16 }}>
-                    <label style={{ display: 'block', fontWeight: 600, marginBottom: 6, color: '#374151', fontSize: 14 }}>{label}</label>
-                    <input type={type} value={formData[field]} onChange={e => setFormData({ ...formData, [field]: e.target.value })} required
-                      style={{ width: '100%', padding: '10px 14px', border: '2px solid #e5e7eb', borderRadius: 8, fontSize: 14, outline: 'none' }} />
+            {/* Services preview */}
+            <div style={{ padding: '32px 40px' }}>
+              <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 11, color: '#555', letterSpacing: 3, marginBottom: 20 }}>// INTERVENTIONS PRINCIPALES</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#1A1A1A', border: '1px solid #1A1A1A' }}>
+                {SERVICES.slice(0, 4).map((s, i) => (
+                  <div key={i} style={{ background: '#000', padding: '20px 24px', cursor: 'pointer' }} onClick={() => setSection('services')}>
+                    <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 8 }}>
+                      <span style={{ fontFamily: '"Courier Prime", monospace', fontSize: 10, color: '#555', marginTop: 2 }}>{s.num}</span>
+                      <div>
+                        <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 18, color: s.urgent ? ac : '#FFF', letterSpacing: 1 }}>{s.title}</div>
+                        <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 12, color: '#555', lineHeight: 1.5, marginTop: 4 }}>{s.desc}</div>
+                      </div>
+                    </div>
+                    <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 20, color: ac }}>{s.price}</div>
                   </div>
                 ))}
-                <div style={{ marginBottom: 20 }}>
-                  <label style={{ display: 'block', fontWeight: 600, marginBottom: 6, color: '#374151', fontSize: 14 }}>Votre problème</label>
-                  <textarea value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} rows={3}
-                    style={{ width: '100%', padding: '10px 14px', border: '2px solid #e5e7eb', borderRadius: 8, fontSize: 14, outline: 'none', resize: 'vertical' }} />
+              </div>
+              <button onClick={() => setSection('services')} style={{ marginTop: 16, background: 'transparent', border: `1px solid #333`, color: '#555', padding: '10px 20px', fontFamily: '"Courier Prime", monospace', fontSize: 12, cursor: 'pointer', letterSpacing: 1 }}>
+                [ VOIR TOUS LES SERVICES ]
+              </button>
+            </div>
+
+            {/* Photos */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#1A1A1A', margin: '0 40px 40px' }}>
+              <img src={IMAGES.locksmith.work1} alt="intervention" style={{ width:'100%', height:160, objectFit:'cover', filter:'grayscale(0.6) contrast(1.2)' }} />
+              <img src={IMAGES.locksmith.door} alt="serrure" style={{ width:'100%', height:160, objectFit:'cover', filter:'grayscale(0.6) contrast(1.2)' }} />
+            </div>
+          </div>
+        )}
+
+        {/* ─── URGENCE ─── */}
+        {section === 'urgence' && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100%', padding: '60px 40px', textAlign: 'center' }}>
+            <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 11, color: '#F00', letterSpacing: 3, marginBottom: 24 }}>
+              ● DISPONIBLE MAINTENANT
+            </div>
+            <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 88, color: '#FFF', letterSpacing: 2, lineHeight: 0.9, marginBottom: 12 }}>
+              06 12
+            </div>
+            <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 88, color: ac, letterSpacing: 2, lineHeight: 0.9, marginBottom: 32 }}>
+              34 56 78
+            </div>
+            <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 14, color: '#555', marginBottom: 40 }}>
+              Intervention 7j/7 · 24h/24 · Île-de-France
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: '#1A1A1A', maxWidth: 500, width: '100%' }}>
+              {[['1','APPEL'],['2','CONFIRMATION'],['3','INTERVENTION']].map(([n,t]) => (
+                <div key={n} style={{ background:'#000', padding:'20px', textAlign:'center' }}>
+                  <div style={{ fontFamily:'"Bebas Neue", sans-serif', fontSize:36, color:ac }}>{n}</div>
+                  <div style={{ fontFamily:'"Courier Prime", monospace', fontSize:10, color:'#555', letterSpacing:1, marginTop:4 }}>{t}</div>
                 </div>
-                <button type="submit" style={{ background: primaryColor, color: '#fff', border: 'none', width: '100%', padding: '14px', borderRadius: 8, fontWeight: 700, fontSize: 16, cursor: 'pointer' }}>
-                  Envoyer ma demande →
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ─── SERVICES ─── */}
+        {section === 'services' && (
+          <div style={{ padding: '32px 40px' }}>
+            <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 40, color: '#FFF', letterSpacing: 2, marginBottom: 4 }}>SERVICES</div>
+            <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 11, color: '#555', letterSpacing: 2, marginBottom: 28 }}>// DEVIS GRATUIT — FACTURATION TRANSPARENTE</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#1A1A1A' }}>
+              {SERVICES.map((s, i) => (
+                <div key={i} style={{ background: '#000', padding: '20px 28px', display: 'flex', alignItems: 'center', gap: 24 }}>
+                  <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 12, color: '#555', minWidth: 28 }}>{s.num}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 22, color: s.urgent ? ac : '#FFF', letterSpacing: 1, marginBottom: 4 }}>{s.title}</div>
+                    <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 12, color: '#555' }}>{s.desc}</div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                    <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 24, color: ac }}>{s.price}</div>
+                    <button onClick={() => setSection('devis')} style={{ background: 'transparent', border: `1px solid ${ac}`, color: ac, padding: '6px 14px', fontFamily: '"Courier Prime", monospace', fontSize: 11, cursor: 'pointer', letterSpacing: 1 }}>
+                      DEVIS
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ─── AVIS ─── */}
+        {section === 'avis' && (
+          <div style={{ padding: '32px 40px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 32 }}>
+              <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 40, color: '#FFF', letterSpacing: 2 }}>AVIS CLIENTS</div>
+              <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 12, color: ac }}>4.9 / 5 — 184 AVIS</div>
+            </div>
+            {[
+              { nom: 'THOMAS A.', texte: 'Arrivé en 18 minutes. Porte ouverte sans dommage. Professionnel impeccable.', date: '2024-11-03' },
+              { nom: 'NADIA B.', texte: 'Devis respecté à l\'euro près. Porte blindée posée en une matinée.', date: '2024-10-17' },
+              { nom: 'LAURENT C.', texte: 'Disponible un dimanche à 23h. Cette équipe mérite 6 étoiles.', date: '2024-09-28' },
+            ].map((a, i) => (
+              <div key={i} style={{ borderTop: i===0 ? `2px solid ${ac}` : '1px solid #1A1A1A', borderBottom: '1px solid #1A1A1A', padding: '20px 0' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                  <span style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 16, color: '#FFF', letterSpacing: 2 }}>{a.nom}</span>
+                  <span style={{ fontFamily: '"Courier Prime", monospace', fontSize: 11, color: '#555' }}>{a.date}</span>
+                </div>
+                <p style={{ fontFamily: '"Courier Prime", monospace', fontSize: 13, color: '#888', lineHeight: 1.7 }}>"{a.texte}"</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ─── DEVIS ─── */}
+        {section === 'devis' && (
+          <div style={{ padding: '32px 40px', maxWidth: 560 }}>
+            <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 40, color: '#FFF', letterSpacing: 2, marginBottom: 4 }}>DEVIS GRATUIT</div>
+            <div style={{ fontFamily: '"Courier Prime", monospace', fontSize: 11, color: '#555', letterSpacing: 2, marginBottom: 28 }}>// RÉPONSE SOUS 30 MINUTES</div>
+            {sent ? (
+              <div style={{ border: `1px solid ${ac}`, padding: 40, textAlign: 'center' }}>
+                <div style={{ fontFamily: '"Bebas Neue", sans-serif', fontSize: 40, color: ac, letterSpacing: 2, marginBottom: 12 }}>ENVOYÉ</div>
+                <p style={{ fontFamily: '"Courier Prime", monospace', fontSize: 13, color: '#888' }}>Nous vous rappelons dans les 30 minutes.</p>
+              </div>
+            ) : (
+              <form onSubmit={e => { e.preventDefault(); setSent(true); }} style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#1A1A1A' }}>
+                {[['nom','NOM COMPLET','text'],['tel','TÉLÉPHONE','tel']].map(([f,l,t]) => (
+                  <div key={f} style={{ background: '#000', padding: '16px 20px' }}>
+                    <label style={{ display: 'block', fontFamily: '"Courier Prime", monospace', fontSize: 10, color: '#555', letterSpacing: 2, marginBottom: 6 }}>{l}</label>
+                    <input type={t} required value={form[f]} onChange={e=>setForm({...form,[f]:e.target.value})}
+                      style={{ width:'100%', background:'transparent', border:'none', borderBottom:`1px solid #333`, padding:'6px 0', fontFamily:'"Courier Prime", monospace', fontSize:15, color:'#FFF', outline:'none' }} />
+                  </div>
+                ))}
+                <div style={{ background: '#000', padding: '16px 20px' }}>
+                  <label style={{ display: 'block', fontFamily: '"Courier Prime", monospace', fontSize: 10, color: '#555', letterSpacing: 2, marginBottom: 6 }}>TYPE D'INTERVENTION</label>
+                  <select value={form.type} onChange={e=>setForm({...form,type:e.target.value})} required
+                    style={{ width:'100%', background:'#000', border:'none', borderBottom:`1px solid #333`, padding:'6px 0', fontFamily:'"Courier Prime", monospace', fontSize:14, color:'#FFF', outline:'none' }}>
+                    <option value="">--</option>
+                    {SERVICES.map(s => <option key={s.title} value={s.title}>{s.title}</option>)}
+                  </select>
+                </div>
+                <div style={{ background: '#000', padding: '16px 20px' }}>
+                  <label style={{ display: 'block', fontFamily: '"Courier Prime", monospace', fontSize: 10, color: '#555', letterSpacing: 2, marginBottom: 6 }}>DESCRIPTION (OPTIONNEL)</label>
+                  <textarea rows={3} value={form.message} onChange={e=>setForm({...form,message:e.target.value})}
+                    style={{ width:'100%', background:'transparent', border:'none', borderBottom:`1px solid #333`, padding:'6px 0', fontFamily:'"Courier Prime", monospace', fontSize:13, color:'#888', outline:'none', resize:'none' }} />
+                </div>
+                <button type="submit" style={{ background: ac, color: '#000', border: 'none', padding: '18px', fontFamily: '"Bebas Neue", sans-serif', fontSize: 22, letterSpacing: 3, cursor: 'pointer' }}>
+                  ENVOYER LA DEMANDE
                 </button>
               </form>
             )}
